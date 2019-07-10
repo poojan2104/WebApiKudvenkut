@@ -1,0 +1,18 @@
+﻿@model IEnumerable<WebApiKudvenkut.Models.Employee>
+@{
+    ViewBag.Title = "EmployeeInfo";
+}
+
+<div class="container">
+    <h4 style="text-align:center;border-bottom:1px solid #808080">Employee Information</h4>
+
+    @foreach (var i in Model)
+    {
+        <p><label>Name : </label>@i.emp_name</p>
+        <p><label>Gender : </label>@i.emp_gender</p>
+        <p><label>City : </label>@i.emp_city</p>
+        <p><label>Birth Date : </label>@i.emp_dob</p>
+        <p><label>Department : </label>@i.Department.dept_name</p>
+    }
+
+</div>

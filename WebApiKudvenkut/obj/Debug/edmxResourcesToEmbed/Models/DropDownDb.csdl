@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="test1Model1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="StudentDropDown">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="test1Entities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="StudentDropDowns" EntityType="Self.StudentDropDown" />
+    <EntitySet Name="Departments" EntityType="test1Model1.Department" />
+    <EntitySet Name="Employees" EntityType="test1Model1.Employee" />
+    <AssociationSet Name="FK__employee___dept___47DBAE45" Association="test1Model1.FK__employee___dept___47DBAE45">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <EntitySet Name="CustomerFileUploads" EntityType="test1Model1.CustomerFileUpload" />
+  </EntityContainer>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="dept_id" />
+    </Key>
+    <Property Name="dept_id" Type="Int32" Nullable="false" />
+    <Property Name="dept_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employees" Relationship="test1Model1.FK__employee___dept___47DBAE45" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="emp_id" />
+    </Key>
+    <Property Name="emp_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="emp_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="emp_gender" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="emp_city" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="emp_state" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="emp_country" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="emp_dob" Type="DateTime" Precision="0" />
+    <Property Name="dept_id" Type="Int32" />
+    <Property Name="photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Department" Relationship="test1Model1.FK__employee___dept___47DBAE45" FromRole="Employee" ToRole="Department" />
+  </EntityType>
+  <Association Name="FK__employee___dept___47DBAE45">
+    <End Type="test1Model1.Department" Role="Department" Multiplicity="0..1" />
+    <End Type="test1Model1.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="dept_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="dept_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CustomerFileUpload">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

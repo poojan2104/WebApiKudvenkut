@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebApiKudvenkut.Models.Order>
+
+<h2>Your Bill</h2>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th style="width:5%">#</th>
+            <th style="width:65%">
+                Product Name
+            </th>
+            <th style="width:10%">
+                Rate
+            </th>
+            <th style="width:10%">
+                Qty
+            </th>
+            <th style="width:10%">
+                Amt
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{ int rowNo = 0; }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(rowNo += 1)</td>
+                <td>@item.ProductName</td>
+                @{
+            var price = String.Format("{0:n2}", item.Price);
+                }
+                <td>@price</td>
+                <td>@item.Quantity</td>
+                @{
+            var amt = String.Format("{0:n2}", item.Amount);
+                }
+                <td>@amt</td>
+            </tr>
+        }
+        @{
+            var total = String.Format("{0:n2}", Model.Sum(x => x.Amount));
+        }
+        <tr>
+            <td colspan="3"><b>Total</b></td>
+            <td>@TempData["totalItem"]</td>
+            <td>@*@TempData["totalAmt"]*@@total</td>
+        </tr>
+    </tbody>
+</table>

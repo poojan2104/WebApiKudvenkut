@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Display";
+}
+
+<h2>Selected students</h2>
+
+@foreach (string id in ViewBag.selectedStudent)
+    {
+        <li>
+            @id
+        </li>
+    }
+<br />

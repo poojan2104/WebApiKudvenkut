@@ -1,0 +1,61 @@
+﻿@model List<WebApiKudvenkut.Models.Customer>
+@{
+    ViewBag.Title = "ViewAllCustomer";
+}
+
+<h3>Customer Record Using Stored Procedure</h3>
+<a href="@Url.Action("AddOrEditCustomer", "Testing")" class="btn btn-default"><i class="fa fa-plus"></i> Create New</a>
+<br />
+<br />
+<table border="1">
+    <tr>
+        <th style="background-color:Yellow;color:blue">
+            Name
+
+        </th>
+        <th style="background-color: Yellow;color: blue">
+            Address
+        </th>
+        <th style="background-color: Yellow;color: blue">
+            Mobile Number
+        </th>
+        <th style="background-color: Yellow;color: blue">
+            Birth Date
+        </th>
+        <th style="background-color: Yellow;color: blue">
+            Email
+        </th>
+        <th style="background-color: Yellow;color: blue">
+            Operation
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Address
+            </td>
+            <td>
+                @item.Mobileno
+            </td>
+            <td>
+                @{
+        string dateOfBirth = Convert.ToDateTime(item.Birthdate).ToString("dd MMMM yyyy");
+                }
+                @dateOfBirth
+            </td>
+            <td>
+                @item.EmailID
+            </td>
+            <td>
+                <a href="@Url.Action("CustomerDetailById", "Testing", new { id = item.CustomerID })" >Details |</a> 
+                <a href="@Url.Action("AddOrEditCustomer", "Testing", new { id = item.CustomerID })" > Edit |</a>
+                <a href="@Url.Action("DeleteCustomer", "Testing", new { id = item.CustomerID })" > Delete </a>
+            </td>
+        </tr>
+    }
+</table>   

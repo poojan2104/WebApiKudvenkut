@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebApiKudvenkut.Models.Employee>
+@{
+    ViewBag.Title = "DynamicLoading";
+}
+<div class="container">
+    <h3>Employee List</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width:20%">
+                    Id
+                </th>
+                <th style="width:80%">
+                    Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.emp_id
+                    </td>
+                    <td><a href="#" data-toggle="popover" data-trigger="hover" id="@item.emp_id">@item.emp_name</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover({
+            title: setData,
+            html: true,
+            placement: 'right'
+        });
+        function setData(id) {
+            var set_data = '';
+            var element = $(this);
+            var id = element.attr("id");
+            $.ajax({
+                url: "@Url.Action("EmployeeInfo","Testing")",
+                method: "post",
+                async: false,
+                data: { id: id },
+                success: function (data) {
+                    set_data = data;
+                }
+            });
+            return set_data;
+        }
+    });
+</script>

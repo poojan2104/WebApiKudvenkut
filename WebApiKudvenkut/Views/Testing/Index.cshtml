@@ -1,0 +1,59 @@
+﻿@model WebApiKudvenkut.Data.Student
+@{
+    ViewBag.Title = "Index";
+}
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/chosen/1.1.0/chosen.css" />
+<script src="//cdn.jsdelivr.net/chosen/1.1.0/chosen.jquery.js"></script>
+
+<h2>Multi Select Dropdown list</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownListFor(m => m.studentList, Model.GetStudentList.Select(x => new SelectListItem { Text = x.StudentName, Value = x.StudentId.ToString() }), new { @class = "form-control chosen-select", @multiple = "true" })
+
+    <input type="submit" class="btn btn-success" />
+}
+
+<br />
+<div class="form-group">
+    <div class="dates">
+        <label class="control-label">
+            Date time picker <span class="symbol required" aria-required="true"></span>
+        </label>
+
+        <input type="text" autocomplete="off" class="form-control" id="txtdob" name="txtdob">
+    </div>
+</div>
+<div class="form-group">
+    <div class="dates">
+        <label class="control-label">
+            Password with display <span class="symbol required" aria-required="true"></span>
+        </label>
+
+        <input type="password" autocomplete="off" class="form-control" id="txtpass" >
+        <input type="button" value="Show Password" onclick="showPassword()"/>
+    </div>
+</div>
+<script>
+    $(".chosen-select").chosen();
+
+    $(function () {
+        $('.dates #txtdob').datepicker({
+            'format': 'dd/mm/yyyy',
+            'autoclose': true
+        });
+    });
+
+    function showPassword() {
+        
+        if ($('#txtpass').attr('type') == 'password') {
+            $('#txtpass').attr('type', 'text');
+        }
+        else
+        {
+            $('#txtpass').attr('type', 'password');
+        }
+    }
+</script>

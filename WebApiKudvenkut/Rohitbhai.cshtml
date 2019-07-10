@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+    var InserRow = '<tr><td><input type="text"  class="id form-control" placeholder=""></td><td><input type="text"  class="lati form-control" placeholder=""></td><td><input type="text"  class="longi form-control" placeholder=""></td></tr>';
+    </script>
+    <h3>Search</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        Add Waypoints: <span class="symbol required" aria-required="true"><button id="add" class="btn btn-default" onclick="AddRow()">Add(+)</button> </span>
+                    </label>
+                    <table class="table" id="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Latitude
+                                </th>
+                                <th>
+                                    Longitude
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" name="txtSearchAddress" class="id form-control" placeholder="">
+                                </td>
+                                <td>
+                                    <input type="text" name="txtSearchAddress" class="lati form-control" placeholder="">
+                                </td>
+                                <td>
+                                    <input type="text" name="txtSearchAddress" class="longi form-control" placeholder="">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="button" id="btnSearch" name="btnSearch" value="Search" class="btn btn-default" style="margin-top:5px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Json Output</h3>
+    <hr />
+    <div class="row" id="resultDiv">
+
+    </div>
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+    @section scripts{
+        @*<script src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyA7Usc3fhs6a13KSRvwAt300fGPnLb375U&libraries=places"></script>*@
+        <script>
+        $("#btnSearch").click(function () {
+            $('#resultDiv').empty();
+            var obj = [];
+            var rowCount = $('#myTable >tbody >tr').length;
+            if (rowCount == 2) {
+                $('#resultDiv').append('<label id="lblJsonResult" style="color:rgba(255,0,4,1);margin-left:2%">Atleast Two Waypoints needed.</label>');
+            }
+            else {
+                $('#table tbody').find('tr').each(function () {
+                obj.push({
+                    "Id": $(this).find('td').find('.id').val(),
+                    "Latitude": $(this).find('td').find('.lati').val(),
+                    "Longitude": $(this).find('td').find('.longi').val()
+                })
+            });
+
+                $("#resultDiv").append('<label " style="color:rgba(66, 139, 202, 1);margin-left:2%">Loading...</label>');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("OptimizeRoute", "GoogleMap")",
+                    data: { Waypoints: obj },
+                    success: function (result) {
+                    $("#resultDiv").empty();
+                        if (result.status) {
+                            var tmpData = JSON.parse(result.result);
+                            var formattedData = JSON.stringify(tmpData, null, '\t');
+                            $('#resultDiv').append('<pre id="lblJsonResult" style="color:rgba(66, 139, 202, 1);margin-left:2%">' + formattedData + '</pre>');
+                    }
+                    else {
+                        $('#resultDiv').append('<label id="lblJsonResult" style="color:rgba(255,0,4,1);margin-left:2%">' + result.result + '</label>');
+                    }
+                }
+                });
+            }
+
+        });
+
+        function AddRow() {
+            $('.table>tbody').append(InserRow);
+        }
+
+        </script>
+    }
+
+
+</body>
+</html>

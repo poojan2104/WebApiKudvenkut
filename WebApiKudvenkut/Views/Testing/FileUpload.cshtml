@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "FileUpload";
+}
+
+<h2>File Upload</h2>
+<br />
+
+<img src="~/Content/Image/user-add-icon.png" id="imagePreview" style="margin:10px" height="160" width="160 " />
+
+<br />
+
+<input type="text" id="txtname" placeholder="Name" class="form-control"/><br />
+
+<input type="file" id="fileInput"  accept="image/jpeg , image/png " onchange="ShowImagePreview(this, document.getElementById('imagePreview'))">
+    
+<br />
+
+<input type="button" id="btnsubmit" value="Submit"  class="btn btn-default"/><br />
+
+<img src="~/Content/Image/Loader.gif" id="loadingImg" />
+<br />
+<br />
+<label id="txtmessage"></label>
+
+
+<script>
+
+
+    $('#btnsubmit').click(function () {
+        var file_data = $("#fileInput").get(0).files[0];
+        var Name = $("#txtname").val();
+
+        var form_data = new FormData();
+        form_data.append("File", file_data);
+        form_data.append("Name", Name);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UploadFiles", "Testing")",
+            dataType: "json",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: form_data,
+            success: function (result) {
+                $('#txtmessage').text(result);
+            }
+        });
+    });
+
+        $(document).ajaxStart(function () {
+            $("#loadingImg").show();
+            $("#fileButton").prop('disabled', true);
+        });
+
+        $(document).ajaxStop(function () {
+            $("#loadingImg").hide();
+            $("#fileButton").prop('disabled', false);
+            $("#fileInput").val("");
+        });
+
+        function ShowImagePreview(ImageUploader, preViewImage) {
+            if (ImageUploader.files && ImageUploader.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(preViewImage).attr('src', e.target.result);
+
+                }
+                reader.readAsDataURL(ImageUploader.files[0]);
+            }
+        }
+
+   
+</script>

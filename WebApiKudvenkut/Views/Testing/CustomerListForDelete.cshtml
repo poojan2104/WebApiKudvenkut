@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebApiKudvenkut.Models.Customer2>
+
+@{
+    ViewBag.Title = "CustomerListForDelete";
+}
+
+<h2>CustomerListForDelete</h2>
+@using (Html.BeginForm("DeleteMultipleCustomer", "Testing", FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <th>
+                Select
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobileno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailID)
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="customerIdsToDelete" value="@item.CustomerID"></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobileno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailID)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    
+    <input type="submit" value="Delete selected Record" />
+}
+

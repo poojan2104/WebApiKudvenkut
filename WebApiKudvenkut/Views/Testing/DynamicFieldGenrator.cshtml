@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "DynamicFieldGenrator";
+}
+<h2>Dynamic Field Genrator</h2>
+<hr />
+
+
+@*<div id="divCount" class="container">
+        <div class="row">
+
+            <div class="col-md-3">
+                <button class="btn btn-success" onclick="AddTextBox()"><i class="fa fa-plus"></i> Add </button>
+            </div>
+        </div>
+
+    </div>*@
+<div id="divOrder">
+    <div class="row">
+        <div class="col-md-9">
+
+            <table class="table table-hover" id="table">
+                <thead>
+                    <tr>
+
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td>
+                            <input type="text" name="txtProductName" class="name form-control" placeholder="iPhone">
+                        </td>
+                        <td>
+                            <input type="number" name="txtPrice" class="price form-control" placeholder="21500">
+                        </td>
+                        <td>
+                            <input type="number" name="txtQty" class="qty form-control" placeholder="2">
+                        </td>
+                        <td>
+                            <button class="btn btn-success" onclick="AddRow()"><i class="fa fa-plus"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="button" id="btnSubmit" value="Submit" class="btn btn-info pull-left" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="partialResult">
+
+</div>
+
+<script>
+
+    function AddTextBox() {
+        var div = document.createElement('DIV');
+        div.innerHTML = GetDynamicTextbox("");
+        document.getElementById("divCount").appendChild(div);
+    }
+    function GetDynamicTextbox(value) {
+        return '<br /><div class="row"><div class="col-md-3"><input type="text" name="txttest" placeholder="Product Name" class="form-control" /></div><div class="col-md-3"><input type="number" placeholder="Price" name="txttest" class="form-control" /></div><div class="col-md-3"><input type="text" placeholder="Quentity" name="txttest" class="form-control" /></div><div class="col-md-3"><button class="btn btn-danger" onclick="RemoveTextBox(this)"><i class="fa fa-close"></i></button></div></div>';
+    }
+    function RemoveTextBox(div) {
+        document.getElementById("divCount").removeChild(div.parentNode.parentNode.parentNode);
+    }
+
+
+    //------------------new---------------------
+    var InserRow = '<tr><td><input type="text"  class="name form-control" placeholder=""></td><td><input type="text"  class="price form-control" placeholder=""></td><td><input type="text"  class="qty form-control" placeholder=""></td><td><button class="delete btn btn-danger" onclick="RemoveRow(this)"><i class="fa fa-close"></i></button></td></tr>';
+    function AddRow() {
+        $('.table>tbody').append(InserRow);
+    }
+
+    $("#table").on('click', '.delete', function () {
+        $(this).closest('tr').remove();
+    });
+
+    $("#btnSubmit").click(function () {
+        var obj = [];
+        $('#table tbody').find('tr').each(function () {
+            obj.push({
+                "ProductName": $(this).find('td').find('.name').val(),
+                "Price": $(this).find('td').find('.price').val(),
+                "Quantity": $(this).find('td').find('.qty').val()
+            })
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("BillGenrator", "Testing")",
+            data: { obj: obj },
+            success: function (result) {
+                if (result == "Error") {
+                    alert("Error");
+                }
+                else {
+                    $('#partialResult').append(result);
+                    $('#divOrder').addClass("hidden");
+                }
+            }
+        });
+    });
+</script>

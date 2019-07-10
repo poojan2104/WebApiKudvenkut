@@ -1,0 +1,47 @@
+﻿@model WebApiKudvenkut.Models.Customer 
+@{
+    ViewBag.Title = "CustomerDetailById";
+}
+<br />
+
+    <fieldset>
+        <legend style="font-family:Arial Black;color:Green">Customer Details</legend>
+
+        <div class="display-label" style="font-family:Arial Black">
+            @Html.DisplayNameFor(model => model.Name)
+        </div>
+        <div class="display-field" style="color:Blue">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+
+        <div class="display-label" style="font-family:Arial Black">
+            @Html.DisplayNameFor(model => model.Address)
+        </div>
+        <div class="display-field" style="color:Blue">
+            @Html.DisplayFor(model => model.Address)
+        </div>
+
+        <div class="display-label" style="font-family:Arial Black">
+            @Html.DisplayNameFor(model => model.Mobileno)
+        </div>
+        <div class="display-field" style="color:Blue">
+            @Html.DisplayFor(model => model.Mobileno)
+        </div>
+
+        <div class="display-label" style="font-family:Arial Black">
+            @Html.DisplayNameFor(model => model.Birthdate)
+        </div>
+        <div class="display-field" style="color:Blue">
+            @Html.DisplayFor(model => model.Birthdate)
+        </div>
+
+        <div class="display-label" style="font-family:Arial Black">
+            @Html.DisplayNameFor(model => model.EmailID)
+        </div>
+        <div class="display-field" style="color:Blue">
+            @Html.DisplayFor(model => model.EmailID)
+        </div>
+        
+    </fieldset>
+<br /><br />
+@Html.ActionLink("Back to Customer Records", "ViewAllCustomer","Testing")
